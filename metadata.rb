@@ -8,3 +8,4 @@ version          "0.2"
 
 depends          "java"
 depends          "iptables"
+depends          "solr"
