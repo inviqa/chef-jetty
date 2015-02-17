@@ -77,19 +77,19 @@ end
 bash 'Copy Lib files' do
   code   "cp -R #{node['jetty']['extracted']}/lib #{node['jetty']['home']}"
   not_if "test -d #{node['jetty']['home']}/lib"
-  notifies :restart, resources(:service => 'jetty')
+  notifies :restart, "service[jetty]"
 end
 
 bash 'Copy Start Jar' do
   code   "cp #{node['jetty']['extracted']}/start.jar #{node['jetty']['home']}"
   not_if "test -f #{node['jetty']['home']}/start.jar"
-  notifies :restart, resources(:service => 'jetty')
+  notifies :restart, "service[jetty]"
 end
 
 template '/etc/default/jetty' do
   source 'jetty.default.erb'
   mode   '644'
-  notifies :restart, resources(:service => 'jetty')
+  notifies :restart, "service[jetty]"
 end
 
 if node['jetty']['port'] < 1024
@@ -102,7 +102,7 @@ if node['jetty']['port'] < 1024
     mode 0644
     backup false
     variables :source => node['jetty']['port'] , :destination => node['jetty']['hidden_port']
-    notifies :run, resources(:execute => "rebuild-iptables")
+    notifies :run, "execute[rebuild-iptables]"
   end
 else
   node.set["jetty"]["real_port"] = node['jetty']['port']
@@ -112,7 +112,7 @@ end
   template "/etc/jetty/#{f}" do
     source "#{f}.erb"
     mode   '644'
-    notifies :restart, resources(:service => 'jetty')
+    notifies :restart, "service[jetty]"
   end
 end
 
