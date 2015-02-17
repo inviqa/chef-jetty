@@ -13,5 +13,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[chef-jetty::default]
+      - recipe[jetty::default]
     attributes:
