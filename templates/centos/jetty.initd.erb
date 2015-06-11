@@ -442,10 +442,10 @@ case "$ACTION" in
 
       if [ "$JETTY_USER" ]
       then
-        daemon --user ${JETTY_USER} --pidfile=${JETTY_PID} "${RUN_CMD[*]} --daemon &"
-        RETVAL=$?
-        echo
-        return $RETVAL
+        touch "$JETTY_PID"
+        chown "$JETTY_USER" "$JETTY_PID"
+        LAST_BACKGROUNDED_PROCESS_ID='$!'
+        daemon --user ${JETTY_USER} --pidfile=${JETTY_PID} "${RUN_CMD[*]} --daemon & echo ${LAST_BACKGROUNDED_PROCESS_ID} > ${JETTY_PID}"
       else
         "${RUN_CMD[@]}" &
         disown $!
@@ -475,7 +475,7 @@ case "$ACTION" in
       echo OK
     else
       TIMEOUT=30
-      killproc -p ${JETTY_PID} -d ${TIMEOUT} $httpd
+      killproc -p ${JETTY_PID} -d ${TIMEOUT} ${JAVA}
       RETVAL=$?
       echo
       [ $RETVAL = 0 ] && rm -f ${JETTY_PID}
@@ -526,7 +526,7 @@ case "$ACTION" in
 
     ;;
 
-  check)
+  check|status)
     echo "Checking arguments to Jetty: "
     echo "JETTY_HOME     =  $JETTY_HOME"
     echo "JETTY_CONF     =  $JETTY_CONF"
