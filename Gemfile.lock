@@ -104,6 +104,10 @@ GEM
     httpclient (2.6.0.1)
     ipaddress (0.8.2)
     json (1.8.3)
+    kitchen-docker (2.3.0)
+      test-kitchen (>= 1.0.0)
+    kitchen-vagrant (0.19.0)
+      test-kitchen (~> 1.4)
     libyajl2 (1.2.0)
     method_source (0.8.2)
     mini_portile2 (2.0.0)
@@ -193,6 +197,7 @@ GEM
       builder (< 4)
       rspec-core (>= 2, < 4, != 2.12.0)
     rufus-lru (1.0.5)
+    safe_yaml (1.0.4)
     sawyer (0.6.0)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
@@ -214,6 +219,12 @@ GEM
       sfl
     syslog-logger (1.6.8)
     systemu (2.6.5)
+    test-kitchen (1.4.2)
+      mixlib-shellout (>= 1.2, < 3.0)
+      net-scp (~> 1.1)
+      net-ssh (~> 2.7, < 2.10)
+      safe_yaml (~> 1.0)
+      thor (~> 0.18)
     thor (0.19.1)
     timers (4.0.4)
       hitimes
@@ -235,7 +246,10 @@ DEPENDENCIES
   chefspec
   fauxhai
   foodcritic
+  kitchen-docker
+  kitchen-vagrant
   rake
+  test-kitchen
 
 BUNDLED WITH
    1.11.2
