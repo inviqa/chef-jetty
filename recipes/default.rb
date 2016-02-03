@@ -66,7 +66,7 @@ bash 'Unpack Jetty' do
 end
 
 template '/etc/init.d/jetty' do
-  source 'jetty.initd.erb'
+  source platform_family?('rhel') ? 'jetty.initd.rhel.erb' : 'jetty.initd.erb'
   mode   '755'
 end
 
